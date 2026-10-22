@@ -1,0 +1,17 @@
+/config.php
+/.env
+/.env.*
+/*.sql
+/*.sqlite
+/*.db
+/moodledata/
+/backups/
+/secrets/
+*.pem
+*.key
+*.p12
+*.pfx
+*.bak
+*.zip
+*.tar
+*.tgz

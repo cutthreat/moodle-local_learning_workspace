@@ -1,0 +1,243 @@
+/* Learning Workspace visual system. Presentation only: no flow, role or grading changes.
+   Loaded after page assets. Keep this scoped to the existing academy shell. */
+.al-surface {
+    --sa-ink: #24364b;
+    --sa-muted: #586b80;
+    --sa-accent: #3158c9;
+    --sa-accent-hover: #2446aa;
+    --sa-tint: #eef3ff;
+    --sa-line: #e1e8ef;
+    --sa-field: #7c8fa6;
+    --sa-canvas: #f5f7fa;
+    --sa-focus: #2446aa;
+    color: var(--sa-ink);
+    background: var(--sa-canvas);
+}
+.al-surface :is(.lw-lesson, .lw-academy, .aw-page) {
+    --ink: var(--sa-ink);
+    --muted: var(--sa-muted);
+    --accent: var(--sa-accent);
+    --line: var(--sa-line);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+}
+.al-surface :is(.lw-lesson, .lw-academy) { background: var(--sa-canvas); }
+.al-surface :is(.lw-heading h1, .aw-page>h1, .al-page-heading h1) {
+    font-size: clamp(26px, 2.3vw, 34px);
+    font-weight: 650;
+    line-height: 1.22;
+    letter-spacing: 0;
+    text-wrap: balance;
+    overflow-wrap: anywhere;
+}
+.al-surface :is(.lw-eyebrow, .lw-navcaption, .aw-menu-group p, .as-stat strong) { letter-spacing: 0; }
+.al-surface .lw-eyebrow { font-size: 11px; color: var(--sa-muted); }
+.al-surface .lw-heading>p:not(.lw-eyebrow) { color: var(--sa-muted); line-height: 1.65; }
+.al-surface :is(.lw-workshop, .aw-page) { padding-block: 32px 48px; }
+.al-surface :is(.lw-sheet, .aw-panel, .as-card) { border-color: var(--sa-line); box-shadow: none; }
+.al-surface .lw-sheet { border-radius: 12px; }
+.al-surface .lw-workbenchbar { background: #fafbfd; border-color: var(--sa-line); padding-block: 14px; }
+.al-surface .lw-sheetbody { line-height: 1.75; }
+.al-surface .lw-sheetbody :is(p, li) { overflow-wrap: anywhere; }
+.al-surface :is(.lw-sheetbody, .aw-panel) h2 { line-height: 1.4; }
+/* Lesson explanations are primary reading, not metadata. Keep the course map
+   and dense staff tables on their own existing type scale. */
+.al-surface .lw-lesson:not(.lw-course) .lw-lead {
+    color: var(--sa-ink);
+    font-size: 16px;
+    line-height: 1.7;
+}
+.al-surface .lw-lesson:not(.lw-course) .lw-anchors p {
+    color: var(--sa-ink);
+    font-size: 16px;
+    line-height: 1.7;
+}
+.al-surface .lw-lesson:not(.lw-course) .lw-checklist { font-size: 15px; line-height: 1.7; }
+.al-surface .lw-lesson:not(.lw-course) :is(.lw-note, .lw-step-hint) { font-size: 14px; line-height: 1.7; }
+.al-surface .lw-lesson:not(.lw-course) .lw-anchors>li>div { min-width: 0; }
+
+/* Navigation is quiet; the selected destination remains unambiguous. */
+.al-surface .lw-top.aw-shared-top { border-color: var(--sa-line); }
+.al-surface .aw-shared-top .lw-brand { font-size: 22px; letter-spacing: 0; font-weight: 700; }
+.al-surface .aw-primary-link { color: var(--sa-muted); border-radius: 7px; }
+.al-surface .aw-primary-link[aria-current=page] { background: var(--sa-tint); color: var(--sa-accent); }
+.al-surface .lw-stepnav a { border-radius: 8px; }
+.al-surface .lw-stepnav a:hover { background: #eaf0f8; color: var(--sa-ink); }
+.al-surface .lw-stepnav .is-current a { background: #e8eefc; color: var(--sa-accent); }
+.al-surface .lw-stepnav .is-current b { background: var(--sa-accent); border-color: var(--sa-accent); }
+.al-surface .lw-stepnav small { line-height: 1.5; }
+.al-surface .aw-profile-toggle { min-width: 44px; border-radius: 8px; padding: 5px 8px; }
+.al-surface .aw-profile-toggle:hover,
+.al-surface .aw-profile-toggle[aria-expanded=true] { background: #f0f4fa; }
+.al-surface .aw-profile-name { font-size: 13px; line-height: 1.45; }
+.al-surface :is(.aw-profile-menu, .aw-notification-menu) {
+    border-color: var(--sa-line);
+    box-shadow: 0 8px 32px #24364b1a, 0 2px 6px #24364b08;
+}
+.al-surface .aw-footer { background: transparent; border-color: var(--sa-line); }
+.al-surface .aw-profile-menu a {
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+}
+.al-surface .aw-profile-card>div { min-width: 0; overflow-wrap: anywhere; }
+.al-surface .aw-notification-copy strong { font-size: 14px; }
+.al-surface .aw-notification-excerpt { font-size: 13px; }
+.al-surface .aw-notification-empty { font-size: 14px; }
+.al-surface :is(.aw-profile-menu, .aw-notification-list) { scrollbar-gutter: stable; }
+.al-surface .aw-useful { gap: 8px 24px; }
+
+/* A single primary colour; secondary actions do not mimic primary buttons. */
+.al-surface :is(.lw-primary, .aw-button:not(.aw-secondary), .aw-panel button:not(.aw-secondary)) {
+    background: var(--sa-accent);
+    border: 1px solid var(--sa-accent);
+    color: #fff;
+}
+.al-surface :is(.lw-primary, .lw-secondary, .aw-button, .aw-panel button) {
+    min-height: 44px;
+    border-radius: 7px;
+    padding: 10px 16px;
+    font-size: 14px;
+    line-height: 1.5;
+    font-weight: 600;
+    box-shadow: none;
+    gap: 8px;
+    overflow-wrap: anywhere;
+}
+.al-surface :is(.lw-primary, .aw-button:not(.aw-secondary), .aw-panel button:not(.aw-secondary)):hover:not(:disabled) {
+    background: var(--sa-accent-hover);
+    border-color: var(--sa-accent-hover);
+}
+.al-surface :is(.lw-secondary, .aw-secondary) { background: #fff; border: 1px solid #bbc8d8; color: var(--sa-ink); }
+.al-surface :is(.lw-secondary, .aw-secondary):hover:not(:disabled) { background: #f3f6fb; border-color: #879bb5; color: var(--sa-ink); }
+.al-surface :is(button, input, select, textarea):disabled { cursor: not-allowed; }
+.al-surface :is(.lw-primary, .lw-secondary, .aw-button, .aw-panel button):disabled {
+    background: #edf0f4;
+    border-color: #d7dfe8;
+    color: #697b8e;
+    opacity: 1;
+}
+.al-surface :is(a, button, input, textarea, select, summary, [tabindex]):focus-visible {
+    outline: 2px solid var(--sa-focus);
+    outline-offset: 3px;
+}
+.al-surface :is(.aw-profile-menu, .aw-notification-menu) a:focus-visible { outline-offset: -3px; }
+.al-surface :is(.lw-skip, .skiplinks a):focus { z-index: 3000; }
+
+/* Clear form affordances without excessive panel chrome. */
+.al-surface :is(.aw-panel, .ac-search, .ac-checkform, .lw-checkform, .ac-review-page)
+    :is(input:not([type=hidden]):not([type=checkbox]):not([type=radio]):not([type=file]), select, textarea) {
+    border: 1px solid var(--sa-field);
+    border-radius: 7px;
+    background: #fff;
+    color: var(--sa-ink);
+    min-height: 44px;
+    padding: 10px 12px;
+    font: inherit;
+    font-size: 14px;
+    line-height: 1.5;
+    box-shadow: none;
+}
+.al-surface :is(.aw-panel, .lw-checkform, .ac-review-page) textarea { resize: vertical; }
+.al-surface :is(input[type=checkbox], input[type=radio]) {
+    accent-color: var(--sa-accent);
+}
+.al-surface :is(.aw-panel, .ac-search, .ac-checkform, .lw-checkform, .ac-review-page)
+    :is(input, select, textarea)[aria-invalid=true] { border-color: #a63c38; }
+.al-surface :is(.lw-option, .ac-option) { border-color: #c7d2df; border-radius: 8px; }
+.al-surface :is(.lw-option, .ac-option):has(input:checked) { background: var(--sa-tint); border-color: var(--sa-accent); }
+.al-surface :is(.lw-option, .ac-option):has(input:focus-visible) { outline: 2px solid var(--sa-focus); outline-offset: 3px; }
+
+/* Course: continuation is the first action, the seven lessons stay a calm list. */
+.al-surface .al-course-start { padding: 28px; background: #fff; border-color: #cdd9ed; border-radius: 12px; }
+.al-surface .al-course-start h2 { font-size: 22px; font-weight: 650; margin-bottom: 12px; }
+.al-surface .al-course-start .lw-primary { margin-top: 8px; }
+.al-surface .al-course-progress { gap: 6px 20px; font-variant-numeric: tabular-nums; line-height: 1.6; }
+.al-surface .lw-course .lw-anchors>li { padding-block: 28px; border-color: var(--sa-line); }
+.al-surface .lw-course .lw-anchors>li>span { background: #f0f3f8; color: var(--sa-muted); border-radius: 8px; }
+.al-surface .lw-course .lw-course-lesson-heading { align-items: center; gap: 8px 12px; }
+.al-surface .lw-course .lw-course-lesson-heading h2 { font-size: 18px; font-weight: 650; }
+.al-surface .lw-course .lw-lesson-status { background: #f2f5f8; color: var(--sa-muted); border-color: transparent; border-radius: 5px; }
+.al-surface .lw-course .lw-lesson-status.is-done { background: #e8f3ec; color: #245b43; }
+.al-surface .lw-course .lw-course-lesson-description { max-width: 70ch; }
+.al-surface .lw-course .lw-anchors .lw-actions { gap: 8px 20px; margin-top: 18px; }
+.al-surface .lw-course .lw-anchors .lw-actions>a:not(.lw-secondary) { font-size: 13px; }
+.al-surface .lw-course .lw-sheetbody>.lw-note { background: #f7f9fc; border-color: #d3dce8; margin-top: 24px; }
+
+/* Reference disclosures sit within the lesson, not in another nested frame. */
+.al-surface .lw-sheet .lw-details.al-reference { margin-block: 24px; border-top-color: var(--sa-line); }
+.al-surface .lw-sheet .al-reference>summary { color: var(--sa-muted); font-weight: 600; padding-block: 14px; }
+.al-surface .lw-sheet .al-reference[open]>summary { color: var(--sa-ink); }
+.al-surface .lw-sheet .al-reference-body { padding: 0 0 16px 18px; font-size: 14px; line-height: 1.7; }
+.al-surface :is(.lw-details, .aw-panel details, .as-form-block)>summary { cursor: pointer; }
+.al-surface :is(.lw-details, .aw-panel details, .as-form-block)>summary::marker { color: #6a7e97; }
+.al-surface .aw-panel details+details { border-top: 1px solid #edf1f5; }
+.al-surface .lw-alert:not(.lw-error) { background: #f8fafc; border-color: var(--sa-line); }
+
+/* Staff density and table geometry remain distinct from learner reading space. */
+.al-surface.al-staff { --as-accent: var(--sa-accent); --as-ink: var(--sa-ink); --as-muted: var(--sa-muted); --as-line: var(--sa-line); }
+.al-surface.al-staff .as-tabs { gap: 4px 24px; }
+.al-surface.al-staff .as-tabs a { font-size: 14px; }
+.al-surface.al-staff .as-tabs a[aria-current=page] { font-weight: 650; }
+.al-surface.al-staff .as-stat { border-color: var(--sa-line); padding: 20px; }
+.al-surface.al-staff .as-stat strong { font-size: 30px; }
+.al-surface.al-staff .as-stat.is-current { background: #f0f4fd; border-color: #bdcbed; }
+.al-surface.al-staff .as-card h2 { font-size: 19px; }
+.al-surface.al-staff .ac-review-queue .ac-table th { background: #f8fafc; font-size: 12px; color: var(--sa-muted); }
+.al-surface.al-staff .ac-review-queue .ac-table td { font-size: 13px; }
+.al-surface.al-staff .ac-review-queue .ac-table tbody tr:focus-within { background: #f1f5fd; }
+.al-surface.al-staff .ac-review-queue .ac-table td:last-child a { min-height: 44px; }
+.al-surface.al-staff .as-results-head { line-height: 1.6; }
+.al-surface.al-staff .ac-review-page .ac-review-progress { box-shadow: none; background: #f3f6fc; border-color: #d8e2f1; }
+.al-surface.al-staff .ac-review-page .ac-inline-review { background: #f7f9fd; border-left-color: #c5d3eb; }
+.al-surface.al-staff .as-empty-inline { padding-block: 8px; }
+
+@media (hover:hover) and (prefers-reduced-motion:no-preference) {
+    .al-surface :is(.lw-primary, .lw-secondary, .aw-button, .aw-primary-link, .aw-profile-toggle, .lw-stepnav a) {
+        transition: background-color 140ms ease, border-color 140ms ease, color 140ms ease;
+    }
+}
+/* At tablet widths the route must not take a third of the reading area. */
+@media (min-width:761px) and (max-width:980px) {
+    .al-surface .lw-lesson:not(.lw-course) .lw-layout { display: flex; flex-direction: column; gap: 20px; }
+    .al-surface .lw-lesson:not(.lw-course) :is(.lw-sidebar, .lw-main) { width: 100%; }
+    .al-surface .lw-lesson:not(.lw-course) .lw-sidebar { padding: 0; }
+    .al-surface .lw-lesson:not(.lw-course) .lw-navcaption { display: none; }
+    .al-surface .lw-lesson:not(.lw-course) .lw-stepnav { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 8px; }
+    .al-surface .lw-lesson:not(.lw-course) .lw-stepnav li { margin: 0; }
+    .al-surface .lw-lesson:not(.lw-course) .lw-stepnav a { height: 100%; }
+    .al-surface .lw-lesson:not(.lw-course) .lw-navprogress { border: 0; margin: 12px 0 0; padding: 0; }
+}
+@media (max-width:760px) {
+    .al-surface :is(.lw-workshop, .aw-page) { padding: 24px 16px 32px; }
+    .al-surface .aw-shared-top .lw-brand { font-size: 20px; }
+    .al-surface .al-course-start { padding: 22px 18px; }
+    .al-surface .al-course-start h2 { font-size: 20px; }
+    .al-surface .lw-sheetbody { padding: 22px 18px; }
+    .al-surface .lw-lesson:not(.lw-course) .lw-anchors li { gap: 10px; }
+    .al-surface .lw-lesson:not(.lw-course) .lw-anchors li>span { width: 22px; }
+    .al-surface .lw-lesson:not(.lw-course) .lw-anchors p { font-size: 15px; }
+    .al-surface .lw-course .lw-course-lesson-heading { align-items: flex-start; }
+    .al-surface .lw-course .lw-course-lesson-heading h2 { font-size: 17px; }
+    .al-surface .lw-sheet .al-reference-body { padding-left: 0; }
+    .al-surface .aw-footer { padding-inline: 16px; gap: 4px 16px; }
+    .al-surface :is(.aw-panel, .ac-search, .lw-checkform, .ac-review-page) :is(input, select, textarea) { font-size: 16px; }
+}
+@media (max-width:390px) {
+    .al-surface .aw-shared-top .lw-brand { font-size: 18px; }
+    .al-surface .aw-shared-top .aw-tools { gap: 0; }
+    .al-surface .aw-profile-toggle { padding-inline: 3px; }
+    .al-surface.al-staff .as-stat { padding: 14px; }
+    .al-surface.al-staff .as-stat strong { font-size: 26px; }
+}
+@media (forced-colors:active) {
+    .al-surface :is(.lw-primary, .lw-secondary, .aw-button, .aw-panel button) { border: 1px solid ButtonText; }
+    .al-surface :is(.aw-primary-link, .as-tabs a)[aria-current=page],
+    .al-surface .lw-stepnav .is-current a { outline: 2px solid Highlight; outline-offset: -2px; }
+}
+@media print {
+    .al-surface, .al-surface :is(.lw-lesson, .lw-academy) { background: #fff; }
+    .al-surface :is(.lw-workshop, .aw-page) { padding: 0; }
+}

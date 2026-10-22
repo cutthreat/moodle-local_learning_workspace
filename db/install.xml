@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<XMLDB PATH="local/learning_workspace/db" VERSION="2026102201" COMMENT="Learning Workspace plugin tables" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd">
+  <TABLES>
+    <TABLE NAME="local_lworkspace_lesson" COMMENT="Edition-pinned self-guided practice, never admission credit">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="userid" TYPE="int" LENGTH="10" NOTNULL="true"/>
+        <FIELD NAME="edition" TYPE="char" LENGTH="64" NOTNULL="true"/>
+        <FIELD NAME="contenthash" TYPE="char" LENGTH="64" NOTNULL="true"/>
+        <FIELD NAME="contentjson" TYPE="text" NOTNULL="true"/>
+        <FIELD NAME="statejson" TYPE="text" NOTNULL="true"/>
+        <FIELD NAME="revision" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0"/>
+        <FIELD NAME="timemodified" TYPE="int" LENGTH="10" NOTNULL="true"/>
+      </FIELDS>
+      <KEYS><KEY NAME="primary" TYPE="primary" FIELDS="id"/></KEYS>
+      <INDEXES><INDEX NAME="user_edition_uix" UNIQUE="true" FIELDS="userid, edition"/></INDEXES>
+    </TABLE>
+    <TABLE NAME="local_lworkspace_lanswer" COMMENT="Immutable submitted versions of self-guided answers">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="lessonid" TYPE="int" LENGTH="10" NOTNULL="true"/>
+        <FIELD NAME="stage" TYPE="int" LENGTH="2" NOTNULL="true"/>
+        <FIELD NAME="revision" TYPE="int" LENGTH="10" NOTNULL="true"/>
+        <FIELD NAME="answertext" TYPE="text" NOTNULL="true"/>
+        <FIELD NAME="timecreated" TYPE="int" LENGTH="10" NOTNULL="true"/>
+      </FIELDS>
+      <KEYS><KEY NAME="primary" TYPE="primary" FIELDS="id"/></KEYS>
+      <INDEXES><INDEX NAME="lesson_revision_uix" UNIQUE="true" FIELDS="lessonid, revision"/></INDEXES>
+    </TABLE>
+    <TABLE NAME="local_lworkspace_acattempt" COMMENT="Immutable academy day test and final exam attempts; no work admission">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="userid" TYPE="int" LENGTH="10" NOTNULL="true"/>
+        <FIELD NAME="kind" TYPE="char" LENGTH="16" NOTNULL="true"/>
+        <FIELD NAME="lessonid" TYPE="char" LENGTH="8" NOTNULL="true" DEFAULT="FINAL"/>
+        <FIELD NAME="bankversion" TYPE="char" LENGTH="64" NOTNULL="true"/>
+        <FIELD NAME="bankhash" TYPE="char" LENGTH="64" NOTNULL="true"/>
+        <FIELD NAME="attemptno" TYPE="int" LENGTH="10" NOTNULL="true"/>
+        <FIELD NAME="status" TYPE="char" LENGTH="32" NOTNULL="true"/>
+        <FIELD NAME="hasdraft" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0"/>
+        <FIELD NAME="score" TYPE="int" LENGTH="3" NOTNULL="true" DEFAULT="0"/>
+        <FIELD NAME="passmark" TYPE="int" LENGTH="3" NOTNULL="true" DEFAULT="80"/>
+        <FIELD NAME="answersjson" TYPE="text" NOTNULL="true"/>
+        <FIELD NAME="questionsjson" TYPE="text" NOTNULL="true"/>
+        <FIELD NAME="feedbackjson" TYPE="text" NOTNULL="true"/>
+        <FIELD NAME="policyjson" TYPE="text"/>
+        <FIELD NAME="answershash" TYPE="char" LENGTH="64" NOTNULL="true"/>
+        <FIELD NAME="idemkey" TYPE="char" LENGTH="128" NOTNULL="true"/>
+        <FIELD NAME="timecreated" TYPE="int" LENGTH="10" NOTNULL="true"/>
+      </FIELDS>
+      <KEYS><KEY NAME="primary" TYPE="primary" FIELDS="id"/></KEYS>
+      <INDEXES>
+        <INDEX NAME="idem_uix" UNIQUE="true" FIELDS="idemkey"/>
+        <INDEX NAME="user_kind_attempt_uix" UNIQUE="true" FIELDS="userid, kind, lessonid, attemptno"/>
+        <INDEX NAME="kind_status_ix" UNIQUE="false" FIELDS="kind, status"/>
+      </INDEXES>
+    </TABLE>
+    <TABLE NAME="local_lworkspace_acdraft" COMMENT="Mutable candidate-only final exam draft; never a graded attempt">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="userid" TYPE="int" LENGTH="10" NOTNULL="true"/>
+        <FIELD NAME="kind" TYPE="char" LENGTH="16" NOTNULL="true"/>
+        <FIELD NAME="variant" TYPE="int" LENGTH="2" NOTNULL="true"/>
+        <FIELD NAME="attemptno" TYPE="int" LENGTH="10" NOTNULL="true"/>
+        <FIELD NAME="bankversion" TYPE="char" LENGTH="64" NOTNULL="true"/>
+        <FIELD NAME="bankhash" TYPE="char" LENGTH="64" NOTNULL="true"/>
+        <FIELD NAME="answersjson" TYPE="text" NOTNULL="true"/>
+        <FIELD NAME="timemodified" TYPE="int" LENGTH="10" NOTNULL="true"/>
+      </FIELDS>
+      <KEYS><KEY NAME="primary" TYPE="primary" FIELDS="id"/></KEYS>
+      <INDEXES>
+        <INDEX NAME="user_kind_variant_uix" UNIQUE="true" FIELDS="userid, kind, variant"/>
+      </INDEXES>
+    </TABLE>
+    <TABLE NAME="local_lworkspace_acreview" COMMENT="Independent day practice feedback or final exam decision; local learning only">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="attemptid" TYPE="int" LENGTH="10" NOTNULL="true"/>
+        <FIELD NAME="reviewerid" TYPE="int" LENGTH="10" NOTNULL="true"/>
+        <FIELD NAME="decision" TYPE="char" LENGTH="32" NOTNULL="true"/>
+        <FIELD NAME="rubricjson" TYPE="text" NOTNULL="true"/>
+        <FIELD NAME="feedback" TYPE="text" NOTNULL="true"/>
+        <FIELD NAME="idemkey" TYPE="char" LENGTH="128" NOTNULL="true"/>
+        <FIELD NAME="timecreated" TYPE="int" LENGTH="10" NOTNULL="true"/>
+      </FIELDS>
+      <KEYS><KEY NAME="primary" TYPE="primary" FIELDS="id"/></KEYS>
+      <INDEXES>
+        <INDEX NAME="attempt_uix" UNIQUE="true" FIELDS="attemptid"/>
+        <INDEX NAME="idem_uix" UNIQUE="true" FIELDS="idemkey"/>
+        <INDEX NAME="decision_ix" UNIQUE="false" FIELDS="decision"/>
+      </INDEXES>
+    </TABLE>
+    <TABLE NAME="local_lworkspace_notice" COMMENT="Academy workspace">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="authorid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0"/>
+        <FIELD NAME="audience" TYPE="char" LENGTH="16" NOTNULL="true"/>
+        <FIELD NAME="title" TYPE="char" LENGTH="160" NOTNULL="true"/>
+        <FIELD NAME="body" TYPE="text" NOTNULL="true"/>
+        <FIELD NAME="active" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0"/>
+        <FIELD NAME="timecreated" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0"/>
+        <FIELD NAME="timemodified" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0"/>
+      </FIELDS>
+      <KEYS><KEY NAME="primary" TYPE="primary" FIELDS="id"/></KEYS>
+    </TABLE>
+    <TABLE NAME="local_lworkspace_nread" COMMENT="Academy workspace">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="userid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0"/>
+        <FIELD NAME="eventkey" TYPE="char" LENGTH="64" NOTNULL="true"/>
+        <FIELD NAME="timecreated" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0"/>
+      </FIELDS>
+      <KEYS><KEY NAME="primary" TYPE="primary" FIELDS="id"/></KEYS>
+      <INDEXES><INDEX NAME="user_event_uix" UNIQUE="true" FIELDS="userid, eventkey"/></INDEXES>
+    </TABLE>
+    <TABLE NAME="local_lworkspace_help" COMMENT="Academy workspace">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="userid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0"/>
+        <FIELD NAME="subject" TYPE="char" LENGTH="160" NOTNULL="true"/>
+        <FIELD NAME="message" TYPE="text" NOTNULL="true"/>
+        <FIELD NAME="pagepath" TYPE="char" LENGTH="255" NOTNULL="true"/>
+        <FIELD NAME="status" TYPE="char" LENGTH="16" NOTNULL="true"/>
+        <FIELD NAME="reply" TYPE="text" NOTNULL="true"/>
+        <FIELD NAME="handledby" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0"/>
+        <FIELD NAME="timecreated" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0"/>
+        <FIELD NAME="timemodified" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0"/>
+      </FIELDS>
+      <KEYS><KEY NAME="primary" TYPE="primary" FIELDS="id"/></KEYS>
+      <INDEXES><INDEX NAME="user_time_ix" UNIQUE="false" FIELDS="userid, timecreated"/></INDEXES>
+    </TABLE>
+    <TABLE NAME="local_lworkspace_acpolicy" COMMENT="Academy assessment policy audit">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="scopeid" TYPE="int" LENGTH="10" DEFAULT="0" NOTNULL="true"/>
+        <FIELD NAME="lessonid" TYPE="char" LENGTH="8" NOTNULL="true"/>
+        <FIELD NAME="attemptlimit" TYPE="int" LENGTH="10" DEFAULT="0" NOTNULL="true"/>
+        <FIELD NAME="feedbackmode" TYPE="char" LENGTH="16" NOTNULL="true"/>
+        <FIELD NAME="retakesenabled" TYPE="int" LENGTH="1" DEFAULT="1" NOTNULL="true"/>
+        <FIELD NAME="authorid" TYPE="int" LENGTH="10" DEFAULT="0" NOTNULL="true"/>
+        <FIELD NAME="timecreated" TYPE="int" LENGTH="10" DEFAULT="0" NOTNULL="true"/>
+      </FIELDS>
+      <KEYS><KEY NAME="primary" TYPE="primary" FIELDS="id"/></KEYS>
+    </TABLE>
+    <TABLE NAME="local_lworkspace_acpermit" COMMENT="Academy assessment policy audit">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="userid" TYPE="int" LENGTH="10" DEFAULT="0" NOTNULL="true"/>
+        <FIELD NAME="kind" TYPE="char" LENGTH="16" NOTNULL="true"/>
+        <FIELD NAME="lessonid" TYPE="char" LENGTH="8" NOTNULL="true"/>
+        <FIELD NAME="attemptno" TYPE="int" LENGTH="10" DEFAULT="0" NOTNULL="true"/>
+        <FIELD NAME="reviewerid" TYPE="int" LENGTH="10" DEFAULT="0" NOTNULL="true"/>
+        <FIELD NAME="reason" TYPE="text" NOTNULL="true"/>
+        <FIELD NAME="timecreated" TYPE="int" LENGTH="10" DEFAULT="0" NOTNULL="true"/>
+      </FIELDS>
+      <KEYS><KEY NAME="primary" TYPE="primary" FIELDS="id"/></KEYS>
+      <INDEXES><INDEX NAME="user_test_attempt_uix" UNIQUE="true" FIELDS="userid, kind, lessonid, attemptno"/></INDEXES>
+    </TABLE>
+    <TABLE NAME="local_lworkspace_acstart" COMMENT="Academy assessment policy audit">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="userid" TYPE="int" LENGTH="10" DEFAULT="0" NOTNULL="true"/>
+        <FIELD NAME="kind" TYPE="char" LENGTH="16" NOTNULL="true"/>
+        <FIELD NAME="lessonid" TYPE="char" LENGTH="8" NOTNULL="true"/>
+        <FIELD NAME="attemptno" TYPE="int" LENGTH="10" DEFAULT="0" NOTNULL="true"/>
+        <FIELD NAME="policyjson" TYPE="text" NOTNULL="true"/>
+        <FIELD NAME="timecreated" TYPE="int" LENGTH="10" DEFAULT="0" NOTNULL="true"/>
+      </FIELDS>
+      <KEYS><KEY NAME="primary" TYPE="primary" FIELDS="id"/></KEYS>
+      <INDEXES><INDEX NAME="user_test_attempt_uix" UNIQUE="true" FIELDS="userid, kind, lessonid, attemptno"/></INDEXES>
+    </TABLE>
+    <TABLE NAME="local_lworkspace_acrdraft" COMMENT="Private reviewer drafts; not assessment decisions">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="attemptid" TYPE="int" LENGTH="10" DEFAULT="0" NOTNULL="true"/>
+        <FIELD NAME="reviewerid" TYPE="int" LENGTH="10" DEFAULT="0" NOTNULL="true"/>
+        <FIELD NAME="revision" TYPE="int" LENGTH="10" DEFAULT="0" NOTNULL="true"/>
+        <FIELD NAME="timemodified" TYPE="int" LENGTH="10" DEFAULT="0" NOTNULL="true"/>
+        <FIELD NAME="payloadjson" TYPE="text" NOTNULL="true"/>
+      </FIELDS>
+      <KEYS><KEY NAME="primary" TYPE="primary" FIELDS="id"/></KEYS>
+      <INDEXES><INDEX NAME="attempt_reviewer_uix" UNIQUE="true" FIELDS="attemptid, reviewerid"/></INDEXES>
+    </TABLE>
+    <TABLE NAME="local_lworkspace_onboard" COMMENT="Group-scoped blended teaching onboard">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="userid" TYPE="int" LENGTH="10" DEFAULT="0" NOTNULL="true"/>
+        <FIELD NAME="answers" TYPE="text" NOTNULL="true"/>
+        <FIELD NAME="status" TYPE="char" LENGTH="16" NOTNULL="true"/>
+        <FIELD NAME="revision" TYPE="int" LENGTH="10" DEFAULT="0" NOTNULL="true"/>
+        <FIELD NAME="timecreated" TYPE="int" LENGTH="10" DEFAULT="0" NOTNULL="true"/>
+        <FIELD NAME="timemodified" TYPE="int" LENGTH="10" DEFAULT="0" NOTNULL="true"/>
+      </FIELDS>
+      <KEYS><KEY NAME="primary" TYPE="primary" FIELDS="id"/></KEYS>
+      <INDEXES><INDEX NAME="user_uix" UNIQUE="true" FIELDS="userid"/></INDEXES>
+    </TABLE>
+    <TABLE NAME="local_lworkspace_session" COMMENT="Group-scoped blended teaching session">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="groupid" TYPE="int" LENGTH="10" DEFAULT="0" NOTNULL="true"/>
+        <FIELD NAME="lessonid" TYPE="char" LENGTH="8" NOTNULL="true"/>
+        <FIELD NAME="title" TYPE="char" LENGTH="160" NOTNULL="true"/>
+        <FIELD NAME="startsat" TYPE="int" LENGTH="10" DEFAULT="0" NOTNULL="true"/>
+        <FIELD NAME="duration" TYPE="int" LENGTH="10" DEFAULT="0" NOTNULL="true"/>
+        <FIELD NAME="timezone" TYPE="char" LENGTH="64" NOTNULL="true"/>
+        <FIELD NAME="meeturl" TYPE="char" LENGTH="512" NOTNULL="true"/>
+        <FIELD NAME="agenda" TYPE="text" NOTNULL="true"/>
+        <FIELD NAME="summary" TYPE="text" NOTNULL="true"/>
+        <FIELD NAME="recordurl" TYPE="char" LENGTH="1024" NOTNULL="true"/>
+        <FIELD NAME="recordname" TYPE="char" LENGTH="255" NOTNULL="true"/>
+        <FIELD NAME="captionname" TYPE="char" LENGTH="255" NOTNULL="true"/>
+        <FIELD NAME="published" TYPE="int" LENGTH="10" DEFAULT="0" NOTNULL="true"/>
+        <FIELD NAME="recordnotice" TYPE="int" LENGTH="10" DEFAULT="0" NOTNULL="true"/>
+        <FIELD NAME="status" TYPE="char" LENGTH="16" NOTNULL="true"/>
+        <FIELD NAME="revision" TYPE="int" LENGTH="10" DEFAULT="0" NOTNULL="true"/>
+        <FIELD NAME="authorid" TYPE="int" LENGTH="10" DEFAULT="0" NOTNULL="true"/>
+        <FIELD NAME="timecreated" TYPE="int" LENGTH="10" DEFAULT="0" NOTNULL="true"/>
+        <FIELD NAME="timemodified" TYPE="int" LENGTH="10" DEFAULT="0" NOTNULL="true"/>
+      </FIELDS>
+      <KEYS><KEY NAME="primary" TYPE="primary" FIELDS="id"/></KEYS>
+      <INDEXES><INDEX NAME="group_start_ix" UNIQUE="false" FIELDS="groupid, startsat"/></INDEXES>
+    </TABLE>
+    <TABLE NAME="local_lworkspace_discuss" COMMENT="Group-scoped blended teaching discuss">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="sessionid" TYPE="int" LENGTH="10" DEFAULT="0" NOTNULL="true"/>
+        <FIELD NAME="parentid" TYPE="int" LENGTH="10" DEFAULT="0" NOTNULL="true"/>
+        <FIELD NAME="userid" TYPE="int" LENGTH="10" DEFAULT="0" NOTNULL="true"/>
+        <FIELD NAME="body" TYPE="text" NOTNULL="true"/>
+        <FIELD NAME="active" TYPE="int" LENGTH="10" DEFAULT="0" NOTNULL="true"/>
+        <FIELD NAME="pinned" TYPE="int" LENGTH="10" DEFAULT="0" NOTNULL="true"/>
+        <FIELD NAME="timecreated" TYPE="int" LENGTH="10" DEFAULT="0" NOTNULL="true"/>
+        <FIELD NAME="timemodified" TYPE="int" LENGTH="10" DEFAULT="0" NOTNULL="true"/>
+      </FIELDS>
+      <KEYS><KEY NAME="primary" TYPE="primary" FIELDS="id"/></KEYS>
+      <INDEXES><INDEX NAME="session_parent_ix" UNIQUE="false" FIELDS="sessionid, parentid"/></INDEXES>
+    </TABLE>
+    <TABLE NAME="local_lworkspace_attend" COMMENT="Group-scoped blended teaching attend">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="sessionid" TYPE="int" LENGTH="10" DEFAULT="0" NOTNULL="true"/>
+        <FIELD NAME="userid" TYPE="int" LENGTH="10" DEFAULT="0" NOTNULL="true"/>
+        <FIELD NAME="status" TYPE="char" LENGTH="16" NOTNULL="true"/>
+        <FIELD NAME="watched" TYPE="int" LENGTH="10" DEFAULT="0" NOTNULL="true"/>
+        <FIELD NAME="note" TYPE="text" NOTNULL="true"/>
+        <FIELD NAME="actorid" TYPE="int" LENGTH="10" DEFAULT="0" NOTNULL="true"/>
+        <FIELD NAME="timemodified" TYPE="int" LENGTH="10" DEFAULT="0" NOTNULL="true"/>
+      </FIELDS>
+      <KEYS><KEY NAME="primary" TYPE="primary" FIELDS="id"/></KEYS>
+      <INDEXES><INDEX NAME="session_user_uix" UNIQUE="true" FIELDS="sessionid, userid"/></INDEXES>
+    </TABLE>
+    <TABLE NAME="local_lworkspace_bevent" COMMENT="Group-scoped blended teaching bevent">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="userid" TYPE="int" LENGTH="10" DEFAULT="0" NOTNULL="true"/>
+        <FIELD NAME="sessionid" TYPE="int" LENGTH="10" DEFAULT="0" NOTNULL="true"/>
+        <FIELD NAME="eventkey" TYPE="char" LENGTH="64" NOTNULL="true"/>
+        <FIELD NAME="title" TYPE="char" LENGTH="160" NOTNULL="true"/>
+        <FIELD NAME="body" TYPE="text" NOTNULL="true"/>
+        <FIELD NAME="timecreated" TYPE="int" LENGTH="10" DEFAULT="0" NOTNULL="true"/>
+      </FIELDS>
+      <KEYS><KEY NAME="primary" TYPE="primary" FIELDS="id"/></KEYS>
+      <INDEXES><INDEX NAME="event_uix" UNIQUE="true" FIELDS="eventkey"/><INDEX NAME="user_ix" UNIQUE="false" FIELDS="userid"/></INDEXES>
+    </TABLE>
+  </TABLES>
+</XMLDB>

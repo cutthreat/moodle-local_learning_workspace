@@ -1,0 +1,7 @@
+.lesson-one-demo { max-width: 60rem; margin: 0 auto; padding: 1.5rem; line-height: 1.6; }
+.lesson-one-demo h1, .lesson-one-demo h2 { line-height: 1.25; }
+.lesson-one-steps { display: flex; flex-wrap: wrap; gap: .75rem 1.5rem; padding-inline-start: 1.5rem; }
+.lesson-one-demo label { display: inline-block; margin: .4rem .75rem .4rem 0; }
+.lesson-one-demo textarea { display: block; box-sizing: border-box; width: 100%; max-width: 52rem; margin: .75rem 0; }
+.lesson-one-demo button { margin: .5rem .5rem .5rem 0; }
+.lesson-one-demo [role="alert"], .lesson-one-demo [role="status"] { padding: .75rem; border-radius: .25rem; }

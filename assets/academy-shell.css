@@ -1,0 +1,37 @@
+/* Shared, scoped academy polish. Keep the approved dialogue-workshop palette. */
+.lw-top.aw-shared-top{display:flex;align-items:center;gap:24px;flex-wrap:wrap}
+.aw-shared-top .lw-brand{flex-shrink:0;white-space:nowrap}
+.aw-primary{display:flex;align-items:center;gap:4px;flex-wrap:wrap;font-size:13px}
+.aw-primary-link{display:inline-flex;align-items:center;min-height:44px;padding:8px 12px;border-radius:6px;color:#526879;text-decoration:none;white-space:nowrap}
+.aw-primary-link:hover{background:#f3f6fc;color:#3158c9;text-decoration:none}
+.aw-primary-link:is([aria-current=page],[aria-current=location]){background:#edf2fd;color:#254eb8;font-weight:600}
+.aw-primary-link:focus-visible{outline:3px solid #93c9f4;outline-offset:2px}
+.aw-shared-top .aw-context-back{font-size:12px;margin-left:0}
+.aw-shared-top .aw-tools{margin-left:auto;flex-wrap:nowrap;gap:14px}
+.aw-shared-top .aw-help{display:inline-flex;align-items:center;justify-content:center;gap:7px;min-height:44px}
+.aw-shared-top .aw-help svg{width:19px;height:19px}
+@media(max-width:1050px){.aw-shared-top .aw-profile-name{max-width:120px}.lw-top.aw-shared-top{gap:14px}.aw-primary-link{padding-inline:9px}}
+@media(max-width:767px){
+ .lw-top.aw-shared-top{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px 10px;padding:12px 16px}
+ .aw-shared-top .lw-brand{font-size:20px;min-width:0}
+ .aw-shared-top .aw-tools{grid-column:2;grid-row:1;margin:0;gap:4px}
+ .aw-shared-top .aw-help{width:40px}.aw-shared-top .aw-help-label{display:none}
+ .aw-shared-top .aw-primary{grid-column:1/-1;grid-row:2;gap:4px;border-top:1px solid #edf1f5;padding-top:4px}
+ .aw-shared-top .aw-primary-link{min-height:40px;padding:6px 10px;font-size:12px}
+ .aw-shared-top .aw-context-back{grid-column:1/-1;grid-row:3;justify-self:start;min-height:40px;display:flex;align-items:center;order:initial}
+}
+@media(max-width:359px){.aw-shared-top .lw-brand{font-size:18px}.lw-top.aw-shared-top{gap:8px 4px}.aw-shared-top .aw-tools{gap:0}.aw-shared-top .aw-profile-toggle{padding:2px}}
+.lw-academy .ac-exam-start { margin: 0 0 20px; }
+.lw-academy .ac-exam-start .lw-primary { display: inline-flex; min-height: 44px; align-items: center; }
+.lw-academy [data-ac-unsaved-hint] { border-left: 3px solid #a16422; padding: 10px 14px; background: #fff8ed; color: #704514; font-size: 13px; line-height: 1.5; }
+.lw-academy [data-ac-unsaved-hint][hidden] { display: none; }
+.lw-academy #ac-exam-start { scroll-margin-top: 20px; }
+.lw-course .lw-anchors > li { padding: 24px 0; }
+.lw-course .lw-anchors > li:first-child { margin-top: 24px; }
+.lw-course .lw-anchors > li > span { display: grid; place-items: center; align-self: flex-start; width: 32px; height: 32px; padding: 0; background: #edf2fd; color: var(--accent); border-radius: 10px; }
+.lw-course .lw-lesson-status { display: inline-block; max-width: 100%; margin: 0 0 12px; padding: 5px 10px; border: 1px solid #d7e0ef; border-radius: 7px; background: #f3f6fc; color: #485a78; font-size: 12px; line-height: 1.5; overflow-wrap: anywhere; }
+.lw-course .lw-lesson-status.is-done { color: #235746; background: #e6f0ec; border-color: #cce0d8; }
+@media (max-width: 400px) {
+    .lw-course .lw-anchors > li { gap: 10px; padding: 22px 0; }
+    .lw-academy .ac-exam-start .lw-primary { width: 100%; justify-content: center; }
+}
